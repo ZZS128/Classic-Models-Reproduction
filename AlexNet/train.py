@@ -6,28 +6,28 @@ from torchvision import transforms
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from model import LeNet
+from model import AlexNet
 import copy
 import time
 
 # 数据预处理，划分训练集和验证集，加载数据
 def data_process():
     train_dataset = FashionMNIST(
-        root='./LeNet/Dataset',
+        root='./AlexNet/Dataset',
         train=True,
-        transform=transforms.Compose([transforms.Resize(size=28),transforms.ToTensor()]),
+        transform=transforms.Compose([transforms.Resize(size=227),transforms.ToTensor()]),
         download=True)
     train_data, val_data = data.random_split(train_dataset, 
                                              [round(len(train_dataset)*0.8), 
                                               len(train_dataset)-round(len(train_dataset)*0.8)])
 
     train_data_loader = data.DataLoader(train_data, 
-                                        batch_size=128, 
+                                        batch_size=64, 
                                         shuffle=True, 
                                         num_workers=4)
 
     val_data_loader = data.DataLoader(val_data, 
-                                      batch_size=128, 
+                                      batch_size=64, 
                                       shuffle=False, 
                                       num_workers=4)
     return train_data_loader, val_data_loader
@@ -41,7 +41,7 @@ def train(model, train_data_loader, val_data_loader, num_epochs):
     # 损失函数
     criterion = torch.nn.CrossEntropyLoss()
     # 优化器
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
     # 最优模型
     best_model = copy.deepcopy(model.state_dict())
     # 最高准确度
@@ -119,7 +119,7 @@ def train(model, train_data_loader, val_data_loader, num_epochs):
         print(f"time use: {time_use//60:.0f}m {time_use%60:.0f}s")
     
     # 保存最优模型及训练数据
-    torch.save(best_model, './LeNet/lenet.pth')
+    torch.save(best_model, './AlexNet/alexnet.pth')
     train_process = pd.DataFrame(data={"epoch":range(num_epochs),
                                        "train_loss_list":train_loss_list,
                                        "train_acc_list":train_acc_list,
@@ -147,7 +147,8 @@ def matplot_process(train_process):
     plt.show()
 
 if __name__ == "__main__":
-    LeNet = LeNet()
+    AlexNet = AlexNet()
     train_data_loader, val_data_loader = data_process()
-    train_process = train(LeNet, train_data_loader, val_data_loader, num_epochs=20)
+    train_process = train(AlexNet, train_data_loader, val_data_loader, num_epochs=20)
     matplot_process(train_process)
+
