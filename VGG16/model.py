@@ -51,10 +51,10 @@ class VGG16(nn.Module):
             nn.Flatten(),
             nn.Linear(7*7*512, 256),
             nn.ReLU(),
-            F.dropout(p=0.5), 
+            nn.Dropout(p=0.5), 
             nn.Linear(256, 128),
             nn.ReLU(),
-            F.dropout(p=0.5),
+            nn.Dropout(p=0.5),
             nn.Linear(128, 10), # 非1000分类问题，输出类别数为10
         )
 
