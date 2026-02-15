@@ -40,8 +40,8 @@ def train(model, train_data_loader, val_data_loader, num_epochs):
     model = model.to(device)
     # 损失函数
     criterion = torch.nn.CrossEntropyLoss()
-    # 优化器
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
+    # 优化器，添加正则化项，降低过拟合
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=1e-4)
     # 最优模型
     best_model = copy.deepcopy(model.state_dict())
     # 最高准确度
@@ -149,6 +149,6 @@ def matplot_process(train_process):
 if __name__ == "__main__":
     AlexNet = AlexNet()
     train_data_loader, val_data_loader = data_process()
-    train_process = train(AlexNet, train_data_loader, val_data_loader, num_epochs=20)
+    train_process = train(AlexNet, train_data_loader, val_data_loader, num_epochs=10)
     matplot_process(train_process)
 
