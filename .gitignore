@@ -222,3 +222,4 @@ checkpoints/
 *.ckpt
 *.pb
 *.pkl
+*.json
