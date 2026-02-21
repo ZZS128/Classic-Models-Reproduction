@@ -213,6 +213,7 @@ data/
 data_cat_dog/
 dataset/
 datasets/
+new_data/
 weights/
 checkpoints/
 *.pth
