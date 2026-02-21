@@ -3,12 +3,18 @@ based on:https://www.bilibili.com/video/BV1e34y1M7wR
 
 #### LeNet-5 报错及解决
 1. "Git: fatal: unable to access 'xxx.git': Failed to connect to github.com port 443 after 21064 ms: Could not connect to server"
-  > 挂全局梯，无用。后发现将git端口号从443修改为代理端口号即可解决
+> 挂全局梯，无用。后发现将git端口号从443修改为代理端口号即可解决
 2. "OSError[WinError 1455]页面文件太小，无法完成操作:xxx."
-  > dataloader中的num_workers设置的过大导致内存爆炸，调整为4即可。
+> dataloader中的num_workers设置的过大导致内存爆炸，调整为4即可。
 3. "TypeError: can't convert cuda:0 device type tensor to numpy. Use Tensor.cpu() to copy the tensor to host memory first."
-  > pandas想将GPU中的张量转化为Numpy多维数组时出错，因为Numpy只能操作CPU上的张量。可采取.cpu()/.item()/.tolist()解决
+> pandas想将GPU中的张量转化为Numpy多维数组时出错，因为Numpy只能操作CPU上的张量。可采取.cpu()/.item()/.tolist()解决
 
 #### AlexNet:问题
 1. 模型出现过拟合现象，验证集准确率在0.90、验证集损失在0.32左右摆动。
-   > 加入正则化，调小学习率。
+> 加入正则化，调小学习率。
+
+#### GoogLeNet 报错及解决
+1. RuntimeError: stack expects each tensor to be equal size, but got [3, 224, 237] at entry 0 and [3, 360, 224] at entry 1
+> 在Resize时传入的参数为size=224，会导致图像大小归一化不正确。需改为元组(224, 224)
+2. RuntimeError: The size of tensor a (4) must match the size of tensor b (3) at non-singleton dimension 0
+> 输入是四个通道，但是代码期望3个通道。PIL默认的打开方式为四通道RGBA，在打开时需指明RGB 
