@@ -18,7 +18,7 @@ def data_process():
     
     dataset = ImageFolder(root=dara_root, transform=test_transform)
     test_data_loader = Data.DataLoader(dataset, 
-                                        batch_size=64, 
+                                        batch_size=1, 
                                         shuffle=False, 
                                         num_workers=4)
     return test_data_loader
@@ -40,8 +40,8 @@ def test(model, test_data_loader):
             pred_lab = torch.argmax(output, dim=1)
 
             test_acc += torch.sum(pred_lab == test_y.data)
-            test_num += test_x.size(0)
-            if test_num % 1000 == 0:
+            test_num += 1
+            if test_num % 100 == 0:
                 print(f"已测试{test_num}个样本")
     test_accuracy = test_acc.double().item() / test_num
     print("测试集上的准确率为：", test_accuracy)
