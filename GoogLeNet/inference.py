@@ -12,13 +12,13 @@ num2label = {
     1: 'dog'
     }
 
-pic_root = 'GoogLeNet/new_data/1.png'
+pic_root = 'GoogLeNet/new_data/0.png'
 
 # 模型推理函数
 def inference(model, pic_root):
     normalize = transforms.Normalize([0.162, 0.151, 0.138], [0.058, 0.052, 0.048])
-    pic_transform = transforms.Compose([transforms.Resize(224, 224),transforms.ToTensor(), normalize])
-    test_x = pic_transform(Image.open(pic_root))
+    pic_transform = transforms.Compose([transforms.Resize((224, 224)), transforms.ToTensor(), normalize])
+    test_x = pic_transform(Image.open(pic_root).convert('RGB'))
     test_x = test_x.unsqueeze(0)  # 增加batch维度
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
