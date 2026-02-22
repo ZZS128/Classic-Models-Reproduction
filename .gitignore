@@ -211,6 +211,7 @@ __marimo__/
 # DDL
 data/
 data_cat_dog/
+Rice_Image_Dataset/
 dataset/
 datasets/
 new_data/
